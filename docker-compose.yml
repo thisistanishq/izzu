@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # DATABASE & CACHE
+  # ==========================================
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-izzu}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-izzu}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # ==========================================
+  # APPLICATION SERVICES
+  # ==========================================
+  
+  # Python Face Engine
+  face-service:
+    build: 
+      context: ./apps/face-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/face-service/secure_storage:/app/secure_storage
+      - ./apps/face-service/login_photos:/app/login_photos
+      - ./apps/face-service/master.key:/app/master.key
+    depends_on:
+      - postgres
+      - redis
+
+  # Next.js Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-izzu}:${POSTGRES_PASSWORD:-password}@postgres:5432/${POSTGRES_DB:-izzu}
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_URL: http://localhost:3001
+      AUTH_SECRET: ${AUTH_SECRET:-supersecret}
+    depends_on:
+      - postgres
+      - redis
+
+  # Next.js Dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
