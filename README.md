@@ -132,9 +132,9 @@ venv/bin/python3 -m uvicorn main:app --reload --port 8000
 ```
 izzu/
 ├── apps/
-│   ├── dashboard/        # Next.js Dashboard (Port 3000)
-│   ├── backend/          # Next.js API (Port 3001)
-│   └── face-service/     # Python Face ID Engine (Port 8000)
+│   ├── dashboard/        # Next.js Dashboard
+│   ├── backend/          # Next.js API
+│   └── face-service/     # Python Face ID Engine
 ├── packages/
 │   ├── db/               # Drizzle ORM schema + client
 │   └── ui/               # Shared UI components
