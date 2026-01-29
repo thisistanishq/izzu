@@ -1,14 +1,14 @@
 {
-    "name": "@izzu/api",
-    "version": "0.0.1",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "lint": "biome check .",
-        "dev": "tsc -w"
-    },
-    "devDependencies": {
-        "typescript": "^5.3.3"
-    }
+  "name": "@izzu/api",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome check .",
+    "dev": "tsc -w"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
 }

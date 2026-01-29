@@ -59,12 +59,8 @@
           "name": "api_keys_project_id_projects_id_fk",
           "tableFrom": "api_keys",
           "tableTo": "projects",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["project_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -74,9 +70,7 @@
         "api_keys_key_unique": {
           "name": "api_keys_key_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "key"
-          ]
+          "columns": ["key"]
         }
       }
     },
@@ -127,10 +121,7 @@
       "indexes": {
         "end_user_email_idx": {
           "name": "end_user_email_idx",
-          "columns": [
-            "project_id",
-            "email"
-          ],
+          "columns": ["project_id", "email"],
           "isUnique": true
         }
       },
@@ -139,12 +130,8 @@
           "name": "end_users_project_id_projects_id_fk",
           "tableFrom": "end_users",
           "tableTo": "projects",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["project_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -199,10 +186,7 @@
       "indexes": {
         "project_slug_idx": {
           "name": "project_slug_idx",
-          "columns": [
-            "tenant_id",
-            "slug"
-          ],
+          "columns": ["tenant_id", "slug"],
           "isUnique": true
         }
       },
@@ -211,12 +195,8 @@
           "name": "projects_tenant_id_tenants_id_fk",
           "tableFrom": "projects",
           "tableTo": "tenants",
-          "columnsFrom": [
-            "tenant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -275,9 +255,7 @@
         "tenants_slug_unique": {
           "name": "tenants_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       }
     }

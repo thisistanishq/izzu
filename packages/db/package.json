@@ -1,23 +1,23 @@
 {
-    "name": "@izzu/db",
-    "version": "0.0.1",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "lint": "biome check .",
-        "db:generate": "drizzle-kit generate:pg",
-        "db:migrate": "drizzle-kit migrate",
-        "db:push": "drizzle-kit push:pg",
-        "db:studio": "drizzle-kit studio"
-    },
-    "dependencies": {
-        "drizzle-orm": "^0.30.9",
-        "postgres": "^3.4.4"
-    },
-    "devDependencies": {
-        "drizzle-kit": "^0.20.17",
-        "typescript": "^5.3.3",
-        "@types/node": "^20.12.7"
-    }
+  "name": "@izzu/db",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome check .",
+    "db:generate": "drizzle-kit generate:pg",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push:pg",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.9",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.17",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.12.7"
+  }
 }

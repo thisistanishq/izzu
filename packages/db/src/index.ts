@@ -5,10 +5,18 @@ import * as schema from "./schema";
 const connectionString = process.env.DATABASE_URL || "postgres://izzu:password@localhost:5432/izzu";
 const client = postgres(connectionString);
 export const db = drizzle(client, { schema });
-export * from "./schema";
 export * from "drizzle-orm";
+export * from "./schema";
 
-import { endUsers, identities, passkeys, projects, tenants, admins, adminSessions } from "./schema";
+import type {
+  adminSessions,
+  admins,
+  endUsers,
+  identities,
+  passkeys,
+  projects,
+  tenants,
+} from "./schema";
 
 export type Tenant = typeof tenants.$inferSelect;
 export type NewTenant = typeof tenants.$inferInsert;
