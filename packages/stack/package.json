@@ -1,21 +1,21 @@
 {
-    "name": "@izzu/stack",
-    "version": "0.0.1",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "lint": "eslint .",
-        "dev": "tsc -w"
-    },
-    "peerDependencies": {
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0"
-    },
-    "devDependencies": {
-        "typescript": "^5.3.3",
-        "eslint": "^9.0.0",
-        "@types/react": "^19.0.0",
-        "@types/react-dom": "^19.0.0"
-    }
+  "name": "@izzu/stack",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "dev": "tsc -w"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "eslint": "^9.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  }
 }

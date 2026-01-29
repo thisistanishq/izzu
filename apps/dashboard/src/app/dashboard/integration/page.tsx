@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Code, Copy, Check, Terminal, Globe, Shield, Loader2, FileCode } from "lucide-react";
 import { motion } from "framer-motion";
+import { Check, Copy, FileCode, Loader2, Shield, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Project {
   id: string;
@@ -20,8 +20,8 @@ export default function IntegrationPage() {
 
   useEffect(() => {
     fetch("/api/v1/projects/list")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.projects && data.projects.length > 0) {
           setProjects(data.projects);
           setSelectedProject(data.projects[0]);
@@ -37,9 +37,10 @@ export default function IntegrationPage() {
     setTimeout(() => setCopied(""), 2000);
   };
 
-  const apiBaseUrl = typeof window !== "undefined"
-    ? window.location.origin.replace(":3000", ":3001") + "/api"
-    : "http://localhost:3001/api";
+  const apiBaseUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin.replace(":3000", ":3001")}/api`
+      : "http://localhost:3001/api";
 
   // Quick Start - Plain HTML/JS
   const getQuickStartCode = () => {
@@ -371,7 +372,7 @@ const IZZU = {
       const form = new FormData();
       form.append("file", blob, "face.jpg");
       
-      const checkRes = await fetch("http://localhost:8000/liveness-check", {
+      const checkRes = await fetch("/api/liveness", {
         method: "POST", body: form
       });
       const checkData = await checkRes.json();
@@ -880,11 +881,15 @@ export default function IzzUAuth({ mode = "signin", onSuccess }) {
           <span className="text-zinc-400 text-sm">Project:</span>
           <select
             value={selectedProject.id}
-            onChange={(e) => setSelectedProject(projects.find(p => p.id === e.target.value) || null)}
+            onChange={(e) =>
+              setSelectedProject(projects.find((p) => p.id === e.target.value) || null)
+            }
             className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700"
           >
-            {projects.map(p => (
-              <option key={p.id} value={p.id}>{p.name}</option>
+            {projects.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
             ))}
           </select>
         </div>
@@ -936,10 +941,19 @@ export default function IzzUAuth({ mode = "signin", onSuccess }) {
               {activeTab === "quick" ? "index.html" : "components/IzzUAuth.jsx"}
             </span>
             <button
-              onClick={() => copyToClipboard(activeTab === "quick" ? getQuickStartCode() : getReactCode(), "code")}
+              onClick={() =>
+                copyToClipboard(
+                  activeTab === "quick" ? getQuickStartCode() : getReactCode(),
+                  "code",
+                )
+              }
               className="flex items-center gap-2 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-sm"
             >
-              {copied === "code" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+              {copied === "code" ? (
+                <Check className="w-4 h-4 text-green-500" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
               {copied === "code" ? "Copied!" : "Copy"}
             </button>
           </div>
