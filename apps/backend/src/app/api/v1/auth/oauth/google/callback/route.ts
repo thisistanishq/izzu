@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, endUsers, identities, eq, and } from "@izzu/db";
+import { db, endUsers, identities, eq, and, auditLogs } from "@izzu/db";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
@@ -112,12 +112,13 @@ export async function GET(req: NextRequest) {
 
         // Create audit log
         try {
-            await db.insert((await import("@izzu/db")).auditLogs).values({
+            await db.insert(auditLogs).values({
                 projectId: DEFAULT_PROJECT_ID,
                 action: "user.login",
                 actorType: "user",
                 actorId: userId,
-                metadata: { provider: "google", email: googleUser.email },
+                resource: `user:${userId}`,
+                metadata: JSON.stringify({ provider: "google", email: googleUser.email }),
                 ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
                 userAgent: req.headers.get("user-agent"),
             });

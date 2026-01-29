@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         });
 
         const excludeCredentials = existingPasskeys.map(pk => ({
-            id: Buffer.from(pk.credentialId, "base64url"),
+            id: pk.credentialId,
             type: "public-key" as const,
             transports: pk.transports as AuthenticatorTransport[] || [],
         }));
