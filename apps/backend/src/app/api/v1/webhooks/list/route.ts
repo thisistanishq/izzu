@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
             events: w.events,
             isActive: w.isActive,
             secret: w.secret ? `whsec_...${w.secret.slice(-4)}` : null,
-            lastTriggeredAt: w.lastTriggeredAt,
+            // lastTriggeredAt: w.lastTriggeredAt,
             createdAt: w.createdAt,
             projectName: w.project?.name || "Unknown",
         }));

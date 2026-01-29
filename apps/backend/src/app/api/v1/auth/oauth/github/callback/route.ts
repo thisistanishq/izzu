@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, endUsers, identities, eq, and } from "@izzu/db";
+import { db, endUsers, identities, eq, and, auditLogs } from "@izzu/db";
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || "";
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || "";
@@ -107,12 +107,13 @@ export async function GET(req: NextRequest) {
 
         // Create audit log
         try {
-            await db.insert((await import("@izzu/db")).auditLogs).values({
+            await db.insert(auditLogs).values({
                 projectId: DEFAULT_PROJECT_ID,
                 action: "user.login",
                 actorType: "user",
                 actorId: userId,
-                metadata: { provider: "github", email: primaryEmail, username: githubUser.login },
+                resource: `user:${userId}`,
+                metadata: JSON.stringify({ provider: "github", email: primaryEmail, username: githubUser.login }),
                 ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
                 userAgent: req.headers.get("user-agent"),
             });

@@ -27,15 +27,15 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Verification failed" }, { status: 400 });
         }
 
-        const { credential: verifiedCredential, credentialPublicKey, counter } = verification.registrationInfo;
+        const { credential: verifiedCredential } = verification.registrationInfo;
 
         // Store the passkey
         const [newPasskey] = await db.insert(passkeys).values({
             endUserId: userId,
-            credentialId: Buffer.from(verifiedCredential.id).toString("base64url"),
-            publicKey: Buffer.from(credentialPublicKey).toString("base64url"),
-            counter: String(counter),
-            transports: credential.response.transports || [],
+            credentialId: verifiedCredential.id,
+            publicKey: Buffer.from(verifiedCredential.publicKey).toString("base64url"),
+            counter: String(verifiedCredential.counter),
+            transports: verifiedCredential.transports || [],
             name: name || "Passkey",
         }).returning();
 

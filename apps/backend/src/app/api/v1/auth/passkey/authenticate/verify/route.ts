@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuthenticationResponse } from "@simplewebauthn/server";
-import { db, passkeys, endUsers, eq } from "@izzu/db";
+import { db, passkeys, endUsers, eq, auditLogs } from "@izzu/db";
 
 const RP_ID = process.env.RP_ID || "localhost";
 const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
             expectedOrigin: ORIGIN,
             expectedRPID: RP_ID,
             credential: {
-                id: Buffer.from(passkey.credentialId, "base64url"),
+                id: passkey.credentialId,
                 publicKey: Buffer.from(passkey.publicKey, "base64url"),
                 counter: Number(passkey.counter),
                 transports: passkey.transports as AuthenticatorTransport[] || [],
@@ -58,12 +58,13 @@ export async function POST(req: NextRequest) {
 
         // Create audit log
         try {
-            await db.insert((await import("@izzu/db")).auditLogs).values({
+            await db.insert(auditLogs).values({
                 projectId: DEFAULT_PROJECT_ID,
                 action: "user.login",
                 actorType: "user",
                 actorId: userId,
-                metadata: { provider: "passkey", passkeyName: passkey.name },
+                resource: `user:${userId}`,
+                metadata: JSON.stringify({ provider: "passkey", passkeyName: passkey.name }),
                 ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
                 userAgent: req.headers.get("user-agent"),
             });

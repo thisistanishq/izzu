@@ -64,7 +64,27 @@ ANTI_SPOOF_VARIANCE_MIN = 35.0
 EAR_THRESHOLD = 0.21
 
 # In-memory DB
-face_db: Dict[str, dict] = {}
+# Disk-based DB
+DB_FILE = os.path.join(UPLOAD_DIR, "face_index.json")
+
+def load_db() -> Dict[str, str]:
+    if not os.path.exists(DB_FILE):
+        return {}
+    try:
+        with open(DB_FILE, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"DB Load Error: {e}")
+        return {}
+
+def save_db(db: Dict[str, str]):
+    try:
+        with open(DB_FILE, "w") as f:
+            json.dump(db, f, indent=2)
+    except Exception as e:
+        logger.error(f"DB Save Error: {e}")
+
+face_db: Dict[str, str] = load_db()
 
 def encrypt_data(data: dict) -> str:
     nonce = os.urandom(12)
@@ -194,6 +214,7 @@ async def register(user_id: str = Form(...), file: UploadFile = File(...)):
         }
         token = encrypt_data(secure_blob)
         face_db[user_id] = token
+        save_db(face_db)
         
         # Save Profile Photo
         photo_name = f"{user_id}_profile.jpg"
